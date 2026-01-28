@@ -9,6 +9,7 @@ import HomeLayout from "./layouts/HomeLayout";
 import ClustersPage from "./pages/ClustersPage";
 import TabLayout from "./layouts/TabLayout";
 import DashboardTab from "./pages/DashboardTab";
+import ScalingTab from "./pages/ScalingTab";
 
 export default function AppRouter() {
   const queryClient = new QueryClient()
@@ -41,7 +42,7 @@ export default function AppRouter() {
                 element={<TabLayout />}
               >
                 <Route index element={<DashboardTab />} />
-                {/* <Route path="scaling" element={<ClusterScalingTab />} /> */}
+                <Route path="scaling" element={<ScalingTab />} />
               </Route>
             </Route>
             <Route path="/" element={<Navigate to="/clusters" replace />} />
