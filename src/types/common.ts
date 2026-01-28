@@ -102,3 +102,52 @@ export type ScalingStats = {
   failed_count: number,
   prediction_count: number
 }
+
+// CHARTS
+export type ServerMetric = {
+  time: string;
+  cluster_id: string;
+  server_id: string;
+  cpu_usage: number;
+  memory_usage: number;
+  request_load: number;
+}
+
+export type MetricsHistoryResponse = {
+  aggregated: boolean;
+  cluster_id: string;
+  count: number;
+  data: ServerMetric[];
+  from: string;
+  to: string;
+}
+
+export type LatestMetric = {
+  time: string;
+  cluster_id: string;
+  avg_cpu: number;
+  avg_memory: number;
+  avg_load: number;
+  max_cpu: number;
+  min_cpu: number;
+  sample_count: number;
+}
+
+export type AggregatedMetric = {
+  time: string;
+  avg_cpu: number;
+  avg_memory: number;
+  server_count: number;
+  max_cpu?: number;
+  min_cpu?: number;
+  max_memory?: number;
+  min_memory?: number;
+}
+
+export type TimeRange = '30s' | '1m' | '5m' | '15m' | '30m' | '1h' | '3h' | '6h' | '12h' | '24h' | '7d' | '30d';
+
+export type TimeRangeOption = {
+  value: TimeRange;
+  label: string;
+  minutes: number;
+}

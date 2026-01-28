@@ -1,9 +1,9 @@
 type DateInput = string | number | Date | null | undefined;
 
-export const formatDateTime = (date: DateInput): string => {
-  if (!date) return "-";
+export const formatDateTime = (timestamp: DateInput): string => {
+  if (!timestamp) return "-";
 
-  return new Date(date).toLocaleString("en-US", {
+  return new Date(timestamp).toLocaleString("en-US", {
     month: "short",
     day: "numeric",
     hour: "2-digit",
@@ -11,20 +11,21 @@ export const formatDateTime = (date: DateInput): string => {
   });
 };
 
-export const formatDate = (date: DateInput): string => {
-  if (!date) return "-";
+export const formatDate = (timestamp: DateInput): string => {
+  if (!timestamp) return "-";
+  const date = new Date(timestamp);
 
-  return new Date(date).toLocaleDateString("en-US", {
+  return date.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
-    year: "numeric",
   });
 };
 
-export const formatTime = (date: DateInput): string => {
-  if (!date) return "-";
+export const formatTime = (timestamp: DateInput): string => {
+  if (!timestamp) return "-";
+  const date = new Date(timestamp);
 
-  return new Date(date).toLocaleTimeString("en-US", {
+  return date.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -71,4 +72,9 @@ export function formatTitleFromSnakeCase(value: string): string {
     .filter(Boolean)
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ")
-} 
+}
+
+export const formatPercent = (value: number | null, decimals = 1) => {
+  if (value == null) return "-";
+  return `${value.toFixed(decimals)}%`;
+};
