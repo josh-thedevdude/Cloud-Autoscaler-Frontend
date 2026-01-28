@@ -64,3 +64,11 @@ export function timeAgo(isoTime: string): string {
   const diffYears = Math.floor(diffMonths / 12);
   return `${diffYears} year${diffYears !== 1 ? "s" : ""} ago`;
 }
+
+export function formatTitleFromSnakeCase(value: string): string {
+  return value
+    .split("_")
+    .filter(Boolean)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ")
+} 
