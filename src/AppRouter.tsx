@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import HomeLayout from "./layouts/HomeLayout";
 import ClustersPage from "./pages/ClustersPage";
+import TabLayout from "./layouts/TabLayout";
 
 export default function AppRouter() {
   const queryClient = new QueryClient()
@@ -28,15 +29,19 @@ export default function AppRouter() {
             </Route>
 
             <Route element={<HomeLayout />}>
-              <Route path="/clusters" element={<ClustersPage />} />
+              <Route path="/clusters" element={
+                <ProtectedRoute>
+                  <ClustersPage />
+                </ProtectedRoute>
+              } />
 
-              {/* <Route
+              <Route
                 path="/clusters/:clusterId"
-                element={<ClusterDashboardLayout />}
+                element={<TabLayout />}
               >
-                <Route index element={<ClusterDashboardTab />} />
-                <Route path="scaling" element={<ClusterScalingTab />} />
-              </Route> */}
+                {/* <Route index element={<ClusterDashboardTab />} />
+                <Route path="scaling" element={<ClusterScalingTab />} /> */}
+              </Route>
             </Route>
             <Route path="/" element={<Navigate to="/clusters" replace />} />
             {/* <Route path="*" element={<NotFoundPage />} /> */}
