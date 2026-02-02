@@ -1,19 +1,19 @@
+import { register } from "@/api/auth"
 import FormField from "@/components/FormField"
 import PasswordField from "@/components/PasswordField"
 import PasswordStrengthIndicator from "@/components/PasswordStrengthIndicator"
 import SubmitButton from "@/components/SubmitButton"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { AlertCircle } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router"
 
 export default function RegisterPage() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
-    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    organization: "",
   })
 
   const fullNameRef = useRef<HTMLInputElement>(null);
@@ -26,10 +26,6 @@ export default function RegisterPage() {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
-
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = "Full name is required"
-    }
 
     if (!formData.email.trim()) {
       newErrors.email = "Email is required"
@@ -49,10 +45,6 @@ export default function RegisterPage() {
       newErrors.confirmPassword = "Passwords do not match"
     }
 
-    if (!formData.organization.trim()) {
-      newErrors.organization = "Organization name is required"
-    }
-
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -64,15 +56,18 @@ export default function RegisterPage() {
 
     setIsLoading(true)
 
-    // Simulate registration
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    // make axios request to the backend
+    const result = await register(formData.email, formData.password)
+    if (!result.success) {
+      setErrors((prev) => ({ ...prev, ["register"]: result.error }))
+      setIsLoading(false)
+      return
+    }
 
     setIsLoading(false)
 
     // Redirect to login after success
-    setTimeout(() => {
-      navigate("/login")
-    }, 2000)
+    navigate("/login")
   }
 
   const handleChange = (field: string, value: string) => {
@@ -93,19 +88,13 @@ export default function RegisterPage() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {errors.login && (
+          <div className="flex items-center gap-2 rounded-md bg-critical/10 px-3 py-2 mb-4 text-sm text-critical">
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            <span>{errors.register}</span>
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
-          <FormField
-            id="fullName"
-            label="Full name"
-            value={formData.fullName}
-            error={errors.fullName}
-            onChange={(v) => handleChange("fullName", v)}
-            placeholder="John Doe"
-            disabled={isLoading}
-            autoComplete="name"
-            inputRef={fullNameRef}
-          />
-
           <FormField
             id="email"
             label="Email"
@@ -116,17 +105,6 @@ export default function RegisterPage() {
             onChange={(v) => handleChange("email", v)}
             disabled={isLoading}
             autoComplete="email"
-          />
-
-          <FormField
-            id="organization"
-            label="Organization / Cluster group"
-            placeholder="Josh Software"
-            value={formData.organization}
-            error={errors.organization}
-            onChange={(v) => handleChange("organization", v)}
-            disabled={isLoading}
-            autoComplete="organization"
           />
 
           <PasswordField

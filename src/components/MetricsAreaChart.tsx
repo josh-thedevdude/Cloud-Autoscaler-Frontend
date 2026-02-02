@@ -1,4 +1,3 @@
-// components/charts/MetricsAreaChart.tsx
 import { formatTime } from "@/lib/formatter";
 import type { TimeRange } from "@/types/common";
 import {

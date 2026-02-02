@@ -10,6 +10,7 @@ import ClustersPage from "./pages/ClustersPage";
 import TabLayout from "./layouts/TabLayout";
 import DashboardTab from "./pages/DashboardTab";
 import ScalingTab from "./pages/ScalingTab";
+import NotFoundPage from "./pages/NotFoundPage";
 
 export default function AppRouter() {
   const queryClient = new QueryClient()
@@ -18,23 +19,25 @@ export default function AppRouter() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <Routes>
-            <Route element={<AuthLayout />}>
+            <Route element={
+              <ProtectedRoute requireAuth={false} redirectTo="/clusters">
+                <AuthLayout />
+              </ProtectedRoute>}>
               <Route path="/login" element={
-                <ProtectedRoute requireAuth={false} redirectTo="/clusters">
-                  <LoginPage />
-                </ProtectedRoute>} />
+                <LoginPage />
+              } />
               <Route path="/register" element={
-                <ProtectedRoute requireAuth={false} redirectTo="/clusters">
-                  <RegisterPage />
-                </ProtectedRoute>}
+                <RegisterPage />
+              }
               />
             </Route>
 
-            <Route element={<HomeLayout />}>
+            <Route element={
+              <ProtectedRoute>
+                <HomeLayout />
+              </ProtectedRoute>}>
               <Route path="/clusters" element={
-                <ProtectedRoute>
-                  <ClustersPage />
-                </ProtectedRoute>
+                <ClustersPage />
               } />
 
               <Route
@@ -46,7 +49,7 @@ export default function AppRouter() {
               </Route>
             </Route>
             <Route path="/" element={<Navigate to="/clusters" replace />} />
-            {/* <Route path="*" element={<NotFoundPage />} /> */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </AuthProvider>
       </QueryClientProvider>

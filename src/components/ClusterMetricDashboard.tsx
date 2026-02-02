@@ -1,4 +1,3 @@
-// components/ClusterMetricsDashboard.tsx
 import { useState } from "react";
 import TimeRangeSelector from "./TimeRangeSelector";
 import { useLiveMetrics } from "../hooks/useClusterMetrics";

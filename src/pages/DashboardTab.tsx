@@ -17,7 +17,7 @@ export default function DashboardTab() {
     clusterId,
     reconnect: true,
     reconnectAttempts: 5,
-    reconnectInterval: 3000,
+    reconnectInterval: 1000,
     onOpen: () => console.log('Connected to cluster:', clusterId),
     onClose: () => console.log('Disconnected from cluster:', clusterId),
     onError: (err) => console.error('WebSocket error:', err),
@@ -47,7 +47,7 @@ export default function DashboardTab() {
                 title="Active Servers"
                 value={String(latestMetrics?.server_count)}
                 // TODO Dynamic
-                subtitle={"Min: 2 / Max: 12"}
+                // subtitle={"Min: 2 / Max: 12"}
                 icon={Server}
                 status="active"
               />

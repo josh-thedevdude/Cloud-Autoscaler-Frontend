@@ -1,4 +1,3 @@
-// hooks/useClusterMetrics.ts
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { fetchClusterMetrics, fetchLatestMetric } from '@/api/metrics';
@@ -23,7 +22,6 @@ export const useMetricsHistory = (clusterId: string, timeRange: TimeRange) => {
 export const useLatestMetrics = (
   clusterId: string,
   timeRange: TimeRange,
-  enabled: boolean = true
 ) => {
   const interval = getPollingInterval(timeRange);
 
@@ -34,7 +32,6 @@ export const useLatestMetrics = (
     gcTime: interval * 2,
     refetchInterval: interval,
     refetchOnWindowFocus: true,
-    enabled,
     retry: 3,
   });
 };

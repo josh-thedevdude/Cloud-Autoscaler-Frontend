@@ -1,4 +1,3 @@
-// types/websocket.types.ts
 export type SubscriptionUpdate = {
   action: "subscribed";
   cluster_id: string;
